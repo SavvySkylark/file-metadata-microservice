@@ -29,6 +29,9 @@ app.get('/', function (request, response) {
 app.get('/api/imagesearch/:search', function(request,response) {
 
   var offset = (request.query.offset||1) - 1;
+  if (offset < 0) {
+    offset = 0;
+  }
   var searchTerms = request.params.search;
   var currentDate = new Date();
 
@@ -71,17 +74,22 @@ app.get('/api/imagesearch/:search', function(request,response) {
       var myResponsePayload = [];
       var itemToPush;
       payload = JSON.parse(payload);
-      payload.items.forEach(function(item) {
-        itemToPush = {
-          url: item.pagemap.cse_image[0].src,
-          snippet: item.snippet,
-          thumbnail: item.pagemap.cse_thumbnail[0].src,
-          context: item.link
-        };
-        myResponsePayload.push(itemToPush);
-      });
-      response.setHeader('Content-Type', 'application/json');
-      response.end(JSON.stringify(myResponsePayload));
+      if (Array.isArray(payload.items)) {
+        payload.items.forEach(function(item) {
+          itemToPush = {
+            url: item.pagemap.cse_image[0].src||'',
+            snippet: item.snippet||'',
+            thumbnail: item.pagemap.cse_thumbnail[0].src||'',
+            context: item.link||''
+          };
+          myResponsePayload.push(itemToPush);
+        });
+        response.setHeader('Content-Type', 'application/json');
+        response.end(JSON.stringify(myResponsePayload));
+      } else {
+        response.setHeader('Content-Type', 'application/json');
+        response.end(JSON.stringify([]));
+      }
     });
   });
   googleReq.on('error', (e) => {
