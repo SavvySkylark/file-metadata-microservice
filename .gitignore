@@ -7,3 +7,4 @@
 .eslintrc.js
 node_modules
 info.txt
+node_modules/
