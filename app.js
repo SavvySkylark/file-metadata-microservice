@@ -1,7 +1,8 @@
 var express = require('express');
 var path = require('path');
+var formidable = require('formidable');
 
-var index = require('./routes/index');
+// var index = require('./routes/index');
 var fileController = require('./routes/fileController');
 
 var app = express();
@@ -14,8 +15,23 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/get-file-size', fileController);
+
+app.post('/get-file-size', function(req, res, next) {
+  var form = new formidable.IncomingForm();
+  var fileSizeRes;
+  form.parse(req);
+  form.on('file', function(name, file) {
+    fileSizeRes = { 'file': file.size};
+  });
+  form.on('end', function() {
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(fileSizeRes));
+  });
+});
+
+app.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
