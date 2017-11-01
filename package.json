@@ -2,18 +2,21 @@
   "name": "file-metadata-microservice",
   "version": "0.0.0",
   "private": true,
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node server.js",
     "test": "mocha --timeout 10000"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
-    "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
     "express": "~4.15.5",
     "formidable": "^1.1.1",
+    "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
     "mocha": "^4.0.1",
-    "pug": "2.0.0-beta11",
+    "chai-http": "^3.0.0",
     "nodemon": "^1.12.1"
   }
 }

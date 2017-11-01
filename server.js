@@ -1,10 +1,6 @@
 var express = require('express');
 var path = require('path');
 var formidable = require('formidable');
-
-// var index = require('./routes/index');
-var fileController = require('./routes/fileController');
-
 var app = express();
 
 // view engine setup
