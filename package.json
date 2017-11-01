@@ -1,11 +1,13 @@
 {
   "name": "file-metadata-microservice",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node ./bin/www",
     "test": "mocha --timeout 10000"
+  },
+  "engines": {
+    "node": "8.x"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
